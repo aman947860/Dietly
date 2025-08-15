@@ -1,25 +1,22 @@
 // DietChartPage.jsx
 import { useLocation, useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+
 
 export default function DietChartPage() {
   const location = useLocation();
   const navigate = useNavigate();
   const dietObj = location.state?.dietObj?.diet_chart;
 
-  if (!dietObj) {
-    return (
-      <div className="min-h-screen bg-[#121212] text-white flex flex-col items-center justify-center p-6">
-        <h1 className="text-3xl font-bold mb-4">No Diet Chart Found</h1>
-        <button
-          onClick={() => navigate("/")}
-          className="px-6 py-3 bg-teal-500 rounded-md text-black font-semibold hover:bg-teal-600 transition"
-        >
-          Go Back
-        </button>
-      </div>
-    );
-  }
+  useEffect(() => {
+    if (!dietObj) {
+      navigate("/", { replace: true });
+    }
+  }, [dietObj, navigate]);
 
+  if (!dietObj) {
+    return null;
+  }
   const renderMealCard = (title, items, label) => (
     <div className="bg-[#1e1e1e] p-5 rounded-xl shadow-lg w-full">
       <div className="flex justify-between items-center mb-4">
